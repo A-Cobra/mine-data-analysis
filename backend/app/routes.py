@@ -1,13 +1,17 @@
 from flask import Blueprint, jsonify, request
 from app.utils.get_analysis_report import get_analysis_report
-from app.controllers.analysis_controller import save_measurements_and_summary
+from app.controllers.analysis_controller import (
+    save_measurements_and_summary,
+    get_analysis_by_date,
+)
 import copy
+import re
 
 main_bp = Blueprint("main", __name__)
 
 
 @main_bp.route("/api/v1/load", methods=["POST"])
-def home():
+def load_data():
     measurement_details = request.get_json()
     print("Loading")
 
@@ -35,6 +39,18 @@ def home():
         return response
 
 
-@main_bp.route("/api/v1/list", methods=["GET"])
-def about():
-    return jsonify({"message": "This is a list"})
+@main_bp.route("/api/v1/list/<date>", methods=["GET"])
+def retrieve_data(date):
+    if not re.match("^\d{4}\-\d{2}\-\d{2}$", date):
+        response = jsonify(
+            {"msg": "Bad request, the date has to have a format of 'YYYY/MM/DD'"}
+        )
+        response.status_code = 400
+        return response
+
+    analysis = get_analysis_by_date(date)
+
+    response = jsonify(analysis)
+
+    response.status_code = 200
+    return response
