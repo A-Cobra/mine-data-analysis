@@ -1,38 +1,31 @@
 from ..config import get_connection
 
 
-def save_measurement_details(measurement_details):
-    connection = get_connection()
-    cursor = connection.cursor()
+def save_measurement_details(measurement_details, cursor):
     sql_query = "INSERT INTO measurement_detail (name_sensor, value, unit, timestamp) VALUES (%s, %s, %s, %s)"
     for data_of_sensor in measurement_details:
         try:
+            print("\n\nsaving data\n\n\n")
             # Extract the values from the dictionary
             name_sensor = data_of_sensor["name_sensor"]
             value = data_of_sensor["value"]
             unit = data_of_sensor["unit"]
             timestamp = data_of_sensor["timestamp"]
 
+            print("before inserting into the table")
+
             # Execute the INSERT statement with the values as parameters
             cursor.execute(sql_query, (name_sensor, value, unit, timestamp))
+
+            print("after inserting into the table")
 
         except Exception as e:
             # Handle the exception
             print("An error occurred:", str(e))
-            connection.rollback()
-            cursor.close()
             raise e
 
-    # Commit the transaction
-    connection.commit()
 
-    # Close the cursor and the database connection
-    cursor.close()
-
-
-def save_summary_details(summary):
-    connection = get_connection()
-    cursor = connection.cursor()
+def save_summary_details(summary, cursor):
     sql_query = "INSERT INTO summary (name_sensor, average, unit, timestamp) VALUES (%s, %s, %s, %s)"
     for data_of_sensor in summary:
         try:
@@ -48,15 +41,7 @@ def save_summary_details(summary):
         except Exception as e:
             # Handle the exception
             print("An error occurred:", str(e))
-            connection.rollback()
-            cursor.close()
             raise e
-
-    # Commit the transaction
-    connection.commit()
-
-    # Close the cursor and the database connection
-    cursor.close()
 
 
 def save_measurements_and_summary(measurement_details, summary):
@@ -64,6 +49,15 @@ def save_measurements_and_summary(measurement_details, summary):
     cursor = connection.cursor()
 
     try:
-        pass
-    except:
-        pass
+        print("saving the measurements")
+        save_measurement_details(measurement_details, cursor)
+        print("saved the measurements")
+        print("saving the summary")
+        save_summary_details(summary, cursor)
+        print("saved the summary")
+        # Commit the transaction
+        connection.commit()
+    except Exception as e:
+        raise e
+    finally:
+        cursor.close

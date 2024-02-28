@@ -1,33 +1,32 @@
 from flask import Blueprint, jsonify, request
 from app.utils.get_analysis_report import get_analysis_report
-from app.controllers.analysis_controller import (
-    save_measurement_details,
-    save_summary_details,
-)
+from app.controllers.analysis_controller import save_measurements_and_summary
+import copy
 
 main_bp = Blueprint("main", __name__)
 
 
 @main_bp.route("/api/v1/load", methods=["POST"])
 def home():
-    data = request.get_json()
+    measurement_details = request.get_json()
     print("Loading")
-    print(data[0])
 
     try:
         # save_measurement_details(data)
-        response = get_analysis_report(data)
-        print("response")
-        print(response)
-        save_summary_details(response)
+        summary = get_analysis_report(copy.deepcopy(measurement_details))
+        print("summary")
+
+        print("\\\n\n\n\nmeasurement_details")
+        print(measurement_details)
+        print("\n\n\n\n")
+        save_measurements_and_summary(measurement_details, summary)
+        return jsonify({"transformed": summary})
     except Exception as e:
         print()
         print()
         print()
         print(e)
         return jsonify({"msg": "failed"})
-
-    return jsonify({"transformed": response})
 
 
 @main_bp.route("/api/v1/list", methods=["GET"])
