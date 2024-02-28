@@ -20,13 +20,19 @@ def home():
         print(measurement_details)
         print("\n\n\n\n")
         save_measurements_and_summary(measurement_details, summary)
-        return jsonify({"transformed": summary})
+
+        response = jsonify({"msg": " Success!"})
+        response.status_code = 201
+        return response
     except Exception as e:
+        response = jsonify({"msg": " Error in the server!"})
+        response.status_code = 500
+        # There could be better error handling such as 400 checking the body of the request
         print()
         print()
         print()
         print(e)
-        return jsonify({"msg": "failed"})
+        return response
 
 
 @main_bp.route("/api/v1/list", methods=["GET"])
