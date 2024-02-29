@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import SummaryDisplay from '../components/SummaryDisplay/SummaryDisplay';
 
 const Summary = () => {
   const [summaryData, setSummaryData] = useState(null);
@@ -12,7 +13,6 @@ const Summary = () => {
     fetch(URL, { method: 'GET' })
       .then(async (response) => {
         const data = await response.json();
-        console.log(data);
         setSummaryData(data);
       })
       .catch((err) => {
@@ -22,7 +22,7 @@ const Summary = () => {
   return (
     <>
       <h2>Resumen</h2>
-      <pre>{summaryData && JSON.stringify(summaryData)}</pre>
+      <pre>{summaryData && <SummaryDisplay summaryData={summaryData} />}</pre>
     </>
   );
 };
