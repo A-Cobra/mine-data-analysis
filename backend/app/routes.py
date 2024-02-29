@@ -12,6 +12,7 @@ main_bp = Blueprint("main", __name__)
 
 @main_bp.route("/api/v1/load", methods=["POST"])
 def load_data():
+    print("loading data")
     # I assume that the body data is correct
     measurement_details = request.get_json()
 
@@ -32,6 +33,7 @@ def load_data():
 
 @main_bp.route("/api/v1/list/<date>", methods=["GET"])
 def retrieve_data(date):
+    print("retrieving data")
     if not re.match("^\d{4}\-\d{2}\-\d{2}$", date):
         response = jsonify(
             {"msg": "Bad request, the date has to have a format of 'YYYY/MM/DD'"}
