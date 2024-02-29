@@ -1,0 +1,25 @@
+version: '1'
+
+services:
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile.backend
+    ports:
+      - '5000:5000'
+    depends_on:
+      - database
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile.frontend
+    ports:
+      - '3000:3000'
+
+  database:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile.database
+    ports:
+      - '3306:3306'
