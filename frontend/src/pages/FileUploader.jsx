@@ -22,7 +22,9 @@ const FileUploader = () => {
 
     const transformedData = transformRawDataIntoObjectsArray(measurementsData);
 
-    const API_BASE_URL = 'http://127.0.0.1:5000';
+    const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
+
+    const API_BASE_URL = `${BACKEND_URL}:5000`;
     const URL = `${API_BASE_URL}/api/v1/load`;
     const body = JSON.stringify(transformedData);
 

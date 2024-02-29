@@ -10,7 +10,9 @@ const Summary = () => {
   const [date, setDate] = useState('2023-04-17');
 
   useEffect(() => {
-    const API_BASE_URL = 'http://127.0.0.1:5000';
+    const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
+
+    const API_BASE_URL = `${BACKEND_URL}:5000`;
     const URL = `${API_BASE_URL}/api/v1/list/${date}`;
 
     fetch(URL, { method: 'GET' })
