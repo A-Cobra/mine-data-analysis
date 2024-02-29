@@ -1,0 +1,16 @@
+.navigation_item {
+  list-style: none;
+}
+
+.anchor {
+  color: white;
+}
+
+.flex_container {
+  display: flex;
+  flex-wrap: wrap;
+  row-gap: 15px;
+  column-gap: 25px;
+  border-bottom: 2px solid rgb(200, 200, 200);
+  justify-content: space-evenly;
+}

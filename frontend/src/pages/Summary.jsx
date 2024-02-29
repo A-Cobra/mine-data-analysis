@@ -31,7 +31,7 @@ const Summary = () => {
       <label htmlFor="date">Seleccione una fecha</label>
       <input type="date" id="date" onChange={handleDateChange}></input>
       <h2>Resumen</h2>
-      <pre>{summaryData && <SummaryDisplay summaryData={summaryData} />}</pre>
+      {summaryData && <SummaryDisplay summaryData={summaryData} />}
     </>
   );
 };
