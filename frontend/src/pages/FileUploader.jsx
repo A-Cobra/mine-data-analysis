@@ -27,21 +27,27 @@ const FileUploader = () => {
       alert('Es necesario un archivo, seleccionelo por favor');
       return;
     }
-    const transformedData = transformRawDataIntoObjectsArray(measurementsData);
+
+    const transformedData = transformRawDataIntoObjectsArray(measurementsData); // Returns an array of objects
 
     const API_BASE_URL = 'http://127.0.0.1:5000';
-
     const URL = `${API_BASE_URL}/api/v1/load`;
-
     const body = JSON.stringify(transformedData);
 
     fetch(URL, {
       method: 'POST',
       body,
+      headers: {
+        'Content-Type': 'application/json', // Set the Content-Type header
+      },
     })
-      .then((data) => {
-        console.log(data);
-        alert('Archivo subido adecuadamente');
+      .then((response) => {
+        if (response.ok) {
+          console.log(response);
+          alert('Archivo subido adecuadamente');
+        } else {
+          throw new Error('Network response was not ok.');
+        }
       })
       .catch((err) => {
         console.log(err);
