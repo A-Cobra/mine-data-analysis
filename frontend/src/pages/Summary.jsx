@@ -4,8 +4,6 @@ import SummaryDisplay from '../components/SummaryDisplay/SummaryDisplay';
 const Summary = () => {
   function handleDateChange(event) {
     const dateValue = event.target.value;
-    console.log('dateValue');
-    console.log(dateValue);
     setDate(dateValue);
   }
   const [summaryData, setSummaryData] = useState(null);
@@ -15,7 +13,6 @@ const Summary = () => {
     const API_BASE_URL = 'http://127.0.0.1:5000';
     const URL = `${API_BASE_URL}/api/v1/list/${date}`;
 
-    // console.log('Fetching data');
     fetch(URL, { method: 'GET' })
       .then(async (response) => {
         const data = await response.json();
