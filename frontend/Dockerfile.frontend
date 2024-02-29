@@ -1,0 +1,18 @@
+FROM node:18-alpine3.19
+
+WORKDIR /app
+
+COPY . .
+
+RUN npm install
+
+#Create the production files
+RUN npm run build
+
+# Install a lightweight web server
+RUN npm install -g serve
+
+# Set the command to serve the optimized files
+CMD ["serve", "-s", "dist", "-l", "3000"]
+
+
