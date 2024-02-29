@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import style from './SummaryDisplay.module.css';
 
 const SummaryDisplay = ({ summaryData }) => {
-  return (
+  return summaryData.length > 0 ? (
     <div className={`${style.cards_container}`}>
       {summaryData.map((summaryRecord, index) => {
         return (
@@ -17,6 +17,10 @@ const SummaryDisplay = ({ summaryData }) => {
         );
       })}
     </div>
+  ) : (
+    <h2 className="error">
+      No hay registros para dicha fecha, por favor elija otra
+    </h2>
   );
 };
 
